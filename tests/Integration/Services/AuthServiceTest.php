@@ -1,15 +1,15 @@
 <?php
 
+use App\Models\User;
 use App\Modules\Auth\Repositories\Interfaces\AuthRepositoryInterface;
 use App\Modules\Auth\Services\AuthService;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Models\User;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Event;
 
 uses(RefreshDatabase::class);
 
-it('uses configured repository to create user', function() {
+it('uses configured repository to create user', function () {
     Event::fake();
 
     $user = User::factory()->raw();
@@ -21,12 +21,12 @@ it('uses configured repository to create user', function() {
         ->once()
         ->withArgs(function (array $user) {
             expect($user)->toBeArray();
-            
+
             return true;
         })->andReturn($modelUser);
 
     $user = resolve(AuthService::class)->register($user);
-    
+
     $this->assertAuthenticatedAs($modelUser);
     Event::assertDispatched(Registered::class);
 });

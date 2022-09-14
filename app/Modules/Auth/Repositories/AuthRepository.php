@@ -11,7 +11,6 @@ class AuthRepository implements AuthRepositoryInterface
 {
     public function __construct(protected User $user)
     {
-        
     }
 
     public function create(array $data): User
@@ -31,5 +30,4 @@ class AuthRepository implements AuthRepositoryInterface
             'password' => Hash::make($data['password']),
         ]);
     }
-
 }

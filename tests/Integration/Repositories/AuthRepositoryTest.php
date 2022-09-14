@@ -1,11 +1,12 @@
 <?php
+
+use App\Models\User;
 use App\Modules\Auth\Repositories\Interfaces\AuthRepositoryInterface;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Models\User;
 
 uses(RefreshDatabase::class);
 
-it('it will store user', function() {
+it('it will store user', function () {
     $user = User::factory()->raw();
     $user['password'] = 'foobar123';
 

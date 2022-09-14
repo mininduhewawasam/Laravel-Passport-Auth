@@ -6,7 +6,6 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
@@ -15,7 +14,7 @@ class Controller extends BaseController
 
     public function sendResponse(mixed $result, mixed $message): JsonResponse
     {
-    	$response = [
+        $response = [
             'success' => true,
             'data'    => $result,
             'message' => $message,
@@ -26,12 +25,12 @@ class Controller extends BaseController
 
     public function sendError($error, $errorMessages = [], int $code = 404): JsonResponse
     {
-    	$response = [
+        $response = [
             'success' => false,
             'message' => $error,
         ];
 
-        if(!empty($errorMessages)){
+        if (!empty($errorMessages)) {
             $response['data'] = $errorMessages;
         }
 

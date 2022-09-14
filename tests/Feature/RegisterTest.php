@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Auth\RegisterController;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Fluent\AssertableJson;
@@ -19,7 +18,6 @@ it('can validate the name on user registration', function (array $user, string $
                     ->where('name', [$message])
                     ->etc())
         );
-
 })->with([
     [fn () => User::factory()->make(['name' => ''])->toArray(), 'The name field is required.'],
 ]);
@@ -36,7 +34,6 @@ it('can validate the email on user registration', function (array $user, string 
                     ->where('email', [$message])
                     ->etc())
         );
-        
 })->with([
     [fn () => User::factory()->make(['email' => ''])->toArray(), 'The email field is required.'],
     [fn () => User::factory()->make(['email' => 'foo123'])->toArray(), 'The email must be a valid email address.'],
@@ -62,7 +59,7 @@ it('can validate the uniqueness of email on user registration', function () {
 
 it('can validate the password on user registration', function (User $user, string $message) {
     $response = $this->postJson(route('register'), $user->toArray());
-    
+
     $response->assertStatus(404)
         ->assertJson(
             fn (AssertableJson $json) => $json
@@ -72,7 +69,6 @@ it('can validate the password on user registration', function (User $user, strin
                     ->where('password', [$message])
                     ->etc())
         );
-
 })->with([
     [fn () => User::factory()->create(['password' => '']), 'The password field is required.'],
 ]);
@@ -81,9 +77,9 @@ it('can validate the confirm password on user registration', function (string $p
     $user = User::factory()->raw();
     $user['password'] = $password;
     $user['password_confirmation'] = $confirmPassword;
-    
+
     $response = $this->postJson(route('register'), $user);
-    
+
     $response->assertStatus(404)
         ->assertJson(
             fn (AssertableJson $json) => $json
@@ -93,14 +89,13 @@ it('can validate the confirm password on user registration', function (string $p
                     ->where('password', [$message])
                     ->etc())
         );
-
 })->with([
     ['foo', 'foo', 'The password must be at least 8 characters.'],
     ['foo12345', 'foo', 'The password confirmation does not match.'],
 ]);
 
 it('can register a new user', function () {
-    $this->artisan('passport:install', ['--no-interaction' => true,]);
+    $this->artisan('passport:install', ['--no-interaction' => true]);
     $user = User::factory()->raw();
     $user['password_confirmation'] = $user['password'];
 

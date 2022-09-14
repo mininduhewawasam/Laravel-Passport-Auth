@@ -1,13 +1,13 @@
 <?php
 
 use App\Http\Resources\AuthUserResource;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
 it('can return auth user', function () {
-    $this->artisan('passport:install', ['--no-interaction' => true,]);
+    $this->artisan('passport:install', ['--no-interaction' => true]);
     $user = User::factory()->make();
 
     $authUserResource = (new AuthUserResource($user))->resolve();
